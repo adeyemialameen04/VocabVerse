@@ -23,16 +23,20 @@ function App() {
         const response = await axios.get(
           `https://api.dictionaryapi.dev/api/v2/entries/en/${searchValue}`
         );
-        const data = await response.data[0];
-        return data;
-      }
 
-      return null;
+        if (response.data.length > 0) {
+          const data = await response.data[0];
+          return data;
+        } else {
+          return [];
+        }
+      }
+      return [];
     } catch (error) {
       const wordNotFound =
         error?.response?.data?.title === "No Definitions Found";
       if (wordNotFound) {
-        console.log(wordNotFound);
+        return [];
       }
     }
   };
@@ -52,7 +56,7 @@ function App() {
   }, [searchValue]);
 
   const rendermain = () => {
-    if (isError) {
+    if (data?.length === 0) {
       return (
         <Main
           heading={"Not Found"}
@@ -62,6 +66,7 @@ function App() {
         />
       );
     }
+
     if (data === null || searchValue === "") {
       return (
         <Main

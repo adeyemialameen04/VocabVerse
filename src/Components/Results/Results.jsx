@@ -7,23 +7,13 @@ const Results = ({ data }) => {
   const audioRef = useRef();
 
   useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (data.phonetics.length !== 0) {
+    if (data.phonetics && data?.phonetics.length !== 0) {
       const filterAudios = data?.phonetics.filter(
         (audio) => audio.audio !== ""
       );
       setAudio(filterAudios[0]);
     }
   }, [data]);
-
-  useEffect(() => {
-    console.log(audio);
-  }, [audio]);
 
   const handlePlayAudio = () => {
     if (audioRef.current && audio !== "") {
@@ -56,11 +46,11 @@ const Results = ({ data }) => {
                     <h2>Meaning</h2>
                     <ul>
                       {meaning?.definitions.map((definition, index) => (
-                        <li key={index}>{definition.definition}</li>
+                        <li key={index}>{definition?.definition}</li>
                       ))}
                       <audio
                         ref={audioRef}
-                        src={audio.audio}
+                        src={audio?.audio}
                         id="audio"
                         style={{ display: "none" }}
                       ></audio>

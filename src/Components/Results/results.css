@@ -60,6 +60,10 @@
     margin-bottom: .4rem;
 }
 
+.word-meanings ul {
+    padding-left: .6rem;
+}
+
 .word-meanings li {
     line-height: 1.2;
 }
