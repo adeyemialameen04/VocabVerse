@@ -1,0 +1,33 @@
+.input {
+    width: 100%;
+    background-color: var(--clr-light-gray);
+    border: none;
+    border-radius: .375rem;
+    height: 70px;
+    padding-left: 8px;
+    font-size: 1.1rem;
+}
+
+.input:focus {
+    outline: 2px solid var(--clr-purple);
+}
+
+.input__container {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    color: var(--clr-purple);
+    background-color: var(--clr-light-gray);
+    top: 30%;
+    font-size: 1.6rem;
+    background-color: transparent;
+    right: 2%;
+}
+
+
+#dark .input {
+    background-color: rgb(31, 31, 31);
+    color: var(--clr-light-gray);
+}

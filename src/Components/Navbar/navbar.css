@@ -1,0 +1,25 @@
+.header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.theme-btn {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    display: grid;
+    place-content: center;
+    border: none;
+}
+
+.lightmode {
+    background-color: var(--clr-purple);
+    color: var(--clr-light-gray);
+}
+
+.darkmode {
+    background-color: var(--clr-light-gray);
+    color: var(--clr-purple);
+}

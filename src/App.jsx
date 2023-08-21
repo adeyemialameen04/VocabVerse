@@ -1,124 +1,97 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { FaTimes } from "react-icons/fa";
-import { BsFillVolumeUpFill } from "react-icons/bs";
+import { createContext, useEffect, useRef, useState } from "react";
+import Navbar from "./Components/Navbar/Navbar";
+import Input from "./Components/Input/Input";
+import Main from "./Components/Main/Main";
+import Results from "./Components/Results/Results";
+
+export const ThemeContext = createContext(null);
 
 function App() {
+  const [theme, setTheme] = useState("light");
   const [searchValue, setSearchValue] = useState("");
-  const [audio, setAudio] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
   const audioRef = useRef(null);
+
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
 
   const getDictionaryData = async () => {
     try {
-      const response = await axios.get(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${searchValue}`
-      );
-      const data = await response.data[0];
-      console.log(data);
-      return data;
+      if (searchValue !== "") {
+        const response = await axios.get(
+          `https://api.dictionaryapi.dev/api/v2/entries/en/${searchValue}`
+        );
+        const data = await response.data[0];
+        return data;
+      }
+
+      return null;
     } catch (error) {
-      console.error(error);
+      const wordNotFound =
+        error?.response?.data?.title === "No Definitions Found";
+      if (wordNotFound) {
+        console.log(wordNotFound);
+      }
     }
   };
 
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["fetchDictionary"],
     getDictionaryData,
-    { enabled: submitted }
-  );
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (searchValue.trim() !== "") {
-      setSubmitted(true);
+    {
+      enabled: !!searchValue,
     }
-    refetch();
-  };
+  );
 
   useEffect(() => {
     if (data) {
-      console.log(data);
+      refetch();
     }
-  }, [data]);
+  }, [searchValue]);
 
-  const handleAudio = (phonetic) => {
-    setAudio(phonetic?.audio);
-    if (audioRef.current) {
-      audioRef.current.play();
+  const rendermain = () => {
+    if (isError) {
+      return (
+        <Main
+          heading={"Not Found"}
+          message={
+            "Sorry ! We found no result for the word you searched for in our dictionary."
+          }
+        />
+      );
+    }
+    if (data === null || searchValue === "") {
+      return (
+        <Main
+          heading={"Free Online Dictionary"}
+          message={
+            "Hello there! You can start using this free online dictionary by typing anything in the above search box."
+          }
+        />
+      );
+    }
+
+    if (data && searchValue !== "") {
+      return <Results data={data} />;
     }
   };
 
   return (
-    <main className="app__main">
-      <div className="container app__container">
-        <form className="box" onSubmit={handleSubmit}>
-          <div className="input-container">
-            <input
-              type="text"
-              placeholder="Search a word"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-            {searchValue !== "" && (
-              <FaTimes
-                className="clear-input"
-                onClick={() => setSearchValue("")}
-              />
-            )}
-          </div>
-          <button type="submit" className="search-btn">
-            Search
-          </button>
-        </form>
-        <>
-          {data && (
-            <>
-              <article className="box phonetic">
-                <h1>{data?.word}</h1>
-                <div>
-                  {data?.phonetics.map((phonetic) => (
-                    <p>
-                      <span>{phonetic.text}</span>
-                      {phonetic.audio !== "" && (
-                        <BsFillVolumeUpFill
-                          style={{ fontSize: "1.3rem" }}
-                          onClick={() => handleAudio(phonetic)}
-                        />
-                      )}
-                    </p>
-                  ))}
-                </div>
-                {audio && (
-                  <audio
-                    controls
-                    ref={audioRef}
-                    style={{
-                      display: "none",
-                    }}
-                    autoPlay={true}
-                    src={audio}
-                  />
-                )}
-              </article>
-              <article className="box definition">
-                {data?.meanings.map((meaning) => (
-                  <div>
-                    <h2>{meaning?.partOfSpeech}</h2>
-                    <>
-                      {meaning?.definitions.map((definition) => (
-                        <p>{definition.definition}</p>
-                      ))}
-                    </>
-                  </div>
-                ))}
-              </article>
-            </>
-          )}
-        </>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <div id={theme === "light" ? "light" : "dark"}>
+        <main className="app__main">
+          <Navbar />
+          <Input
+            searchValue={searchValue}
+            refetch={refetch}
+            setSearchValue={setSearchValue}
+          />
+          <>{rendermain()}</>
+        </main>
       </div>
-    </main>
+    </ThemeContext.Provider>
   );
 }
 

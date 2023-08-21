@@ -1,0 +1,71 @@
+.word-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.word-info h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+.word-info small {
+    color: var(--clr-purple);
+}
+
+.word-info button {
+    background-color: var(--clr-light-purple);
+    color: var(--clr-purple);
+    height: 70px;
+    width: 70px;
+    font-size: 2.5rem;
+    display: grid;
+    place-content: center;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.word-meanings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.line {
+    height: 1px;
+    width: 100%;
+    background-color: var(--clr-light-purple);
+}
+
+.word-meanings>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+}
+
+.word-meanings>div h1 {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: .6rem;
+}
+
+.word-meanings>h2 {
+    color: rgb(117, 117, 117);
+    margin-bottom: .4rem;
+}
+
+.word-meanings li {
+    line-height: 1.2;
+}
+
+.word-meanings li::marker {
+    content: "•";
+    color: var(--clr-purple);
+    font-size: 2rem;
+}
