@@ -1,0 +1,23 @@
+.main__container {
+    border: 2px dashed var(--clr-purple);
+    padding-block: 3.1875rem;
+    padding-inline: clamp(0.5rem, 1rem, 4rem);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .6rem;
+    border-radius: .375rem;
+}
+
+.main__container h2 {
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+}
+
+.main__container p {
+    color: rgb(117, 117, 117);
+    padding-inline: 1rem;
+}
