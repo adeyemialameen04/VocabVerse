@@ -81,7 +81,7 @@ svg {
 
 #light {
   padding-bottom: 6rem;
-  transition: background-color 250ms ease-in;
+  transition: background-color 200ms ease-in;
 }
 
 #dark {
@@ -89,7 +89,7 @@ svg {
   color: white;
   padding-bottom: 6rem;
   min-height: 100vh;
-  transition: background-color 250ms ease-in;
+  transition: background-color 200ms ease-in;
 }
 
 @media (min-width:780px) {
